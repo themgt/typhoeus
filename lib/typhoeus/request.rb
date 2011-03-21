@@ -170,7 +170,13 @@ module Typhoeus
     def cache_key
       Digest::SHA1.hexdigest(url)
     end
-
+    
+    def run
+      Typhoeus::Hydra.hydra.queue self
+      Typhoeus::Hydra.hydra.run
+      response
+    end
+    
     def self.run(url, params)
       r = new(url, params)
       Typhoeus::Hydra.hydra.queue r
