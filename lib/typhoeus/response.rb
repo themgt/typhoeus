@@ -71,9 +71,21 @@ module Typhoeus
     end
 
     def success?
-      @code >= 200 && @code < 300
+      @code.between? 200, 299
     end
-
+    
+    def redirect?
+      modified? and @code.between? 300, 399
+    end
+    
+    def client_error?
+      @code.between? 400, 499
+    end
+    
+    def server_error?
+      @code.between? 500, 599
+    end
+    
     def modified?
       @code != 304
     end
